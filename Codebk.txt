@@ -1,0 +1,68 @@
+my run_analysis.R code runs as downloading, merging, and subsequently created maindata for analysis purposes.
+
+Download data from the web was downloaded and extracted into a folder called UCI HAR Dataset
+
+There are 28 available;
+
+activity_labels.txt"                         
+features_info.txt"                           
+features.txt"                                
+README.txt"                                  
+test/Inertial Signals/body_acc_x_test.txt   
+test/Inertial Signals/body_acc_y_test.txt   
+test/Inertial Signals/body_acc_z_test.txt   
+test/Inertial Signals/body_gyro_x_test.txt  
+test/Inertial Signals/body_gyro_y_test.txt  
+test/Inertial Signals/body_gyro_z_test.txt  
+test/Inertial Signals/total_acc_x_test.txt  
+test/Inertial Signals/total_acc_y_test.txt  
+test/Inertial Signals/total_acc_z_test.txt  
+test/subject_test.txt                       
+test/X_test.txt                             
+test/y_test.txt                             
+train/Inertial Signals/body_acc_x_train.txt 
+train/Inertial Signals/body_acc_y_train.txt 
+train/Inertial Signals/body_acc_z_train.txt 
+train/Inertial Signals/body_gyro_x_train.txt
+train/Inertial Signals/body_gyro_y_train.txt
+train/Inertial Signals/body_gyro_z_train.txt
+train/Inertial Signals/total_acc_x_train.txt
+train/Inertial Signals/total_acc_y_train.txt
+train/Inertial Signals/total_acc_z_train.txt
+train/subject_train.txt                     
+train/X_train.txt                           
+train/y_train.txt
+
+out of which the code made do of the following 6;
+
+test/subject_test.txt
+test/X_test.txt
+test/y_test.txt
+train/subject_train.txt
+train/X_train.txt
+train/y_train.txt
+
+The code merge train & test data to create one data set
+        X (10299 rows, 561 columns) is created by merging x_train and x_test using rbind() function
+        Y (10299 rows, 1 column) is created by merging y_train and y_test using rbind() function
+        Subject (10299 rows, 1 column) is created by merging subject_train and subject_test using rbind() function
+        Merged_Data (10299 rows, 563 column) is created by merging Subject, Y and X using cbind() function
+
+Extracted only the measurements on the mean and std to create TidyData 
+        TidyData (10299 rows, 88 columns) is created by subsetting Merged_Data, selecting only columns: subject, code and the measurements on the mean and standard deviation (std) for each measurement
+
+Used descriptive activity names to name the activities in the data set
+       
+Appropriately labeled the data with descriptive variable names as follows;
+        code column in TidyData renamed into activities
+        All Acc in column’s name replaced by Accelerometer
+        All Gyro in column’s name replaced by Gyroscope
+        All BodyBody in column’s name replaced by Body
+        All Mag in column’s name replaced by Magnitude
+        All start with character f in column’s name replaced by Frequency
+        All start with character t in column’s name replaced by Time
+
+From the data set in step 4, created independent tidy data set with the average of each variable for each activity and each subject
+        MainData (180 rows, 88 columns) is created by sumarizing TidyData taking the means of each variable for each activity and each subject, after groupped by subject and activity.
+        write MainData into MainData.txt file by setting row.name to FALSE.
+
